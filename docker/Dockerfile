@@ -3,7 +3,7 @@
 # See https://docs.docker.com/develop/develop-images/multistage-build/
 
 # Creating a python base with shared environment variables
-FROM python:3.8.1-slim as python-base
+FROM python:3.12-slim as python-base
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
@@ -26,14 +26,14 @@ RUN apt-get update \
         build-essential
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
-ENV POETRY_VERSION=1.0.5
+ENV POETRY_VERSION=2.1.1
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # We copy our Python requirements here to cache them
 # and install only runtime deps using poetry
 WORKDIR $PYSETUP_PATH
 COPY ./poetry.lock ./pyproject.toml ./
-RUN poetry install --no-dev  # respects 
+RUN poetry install --only main
 
 
 # 'development' stage installs all dev deps and can be used to develop code.
