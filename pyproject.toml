@@ -1,33 +1,24 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["Boris Dev <help@nobsmed.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+
+[tool.poetry.group.dev.dependencies]
+
+
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
-[tool.poetry]
-name = "backend"
-version = "0.1.0"
-description = "Minimal Poetry example with Docker Multi-Stage builds"
-authors = ["Michael Oliver <mo175@live.com>"]
-
-[tool.poetry.dependencies]
-python = "^3.7"
-
-fastapi = "0.52.0"
-gunicorn = "^20.0.4"
-uvicorn = "^0.11.3"
-
-
-[tool.poetry.dev-dependencies]
-pytest = "5.3.5"
-coverage = { version = "5.0.3", extras = ["toml"]}
-black = "^19.10b0"
-isort = { version = "^4.3.21", extras = ["pyproject"]}
-requests = "^2.23.0"
-
-
 [tool.black]
 # https://github.com/psf/black
 line-length = 88
-target_version = ['py38']
+target_version = ['py312']
 exclude = '''
 (
   /(
