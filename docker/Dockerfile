@@ -33,7 +33,8 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 # and install only runtime deps using poetry
 WORKDIR $PYSETUP_PATH
 COPY ./poetry.lock ./pyproject.toml ./
-RUN poetry install --only main
+# install runtime dependencies, no code is copied yet, and no dev deps
+RUN poetry install --only main --no-root
 
 
 # 'development' stage installs all dev deps and can be used to develop code.
