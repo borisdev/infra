@@ -1,9 +1,15 @@
 services:
+  # for debugging purposes
+  # backend:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/Dockerfile.base
   backend:
     build:
       context: .
       dockerfile: docker/Dockerfile
     ports:
-      - "8000:8000"
+      - "80:80"
+    command: ["fastapi", "dev" , "main.py", "--host=0.0.0.0", "--port=80", "--reload"]
     volumes:
       - ./app:/app
