@@ -84,6 +84,10 @@ nobsregistry.azurecr.io/nobs_backend      v1        585a4696bedd   44 hours ago 
 nobs_backend                           latest    585a4696bedd   43 hours ago   197MB
 nobs_frontend                          latest    585a4696bedd   43 hours ago   197MB
 
+# Login to Azure Container Registry
+
+az acr login --name nobsregistry
+
 # Push image to Azure Container Registry
 
 docker push nobsregistry.azurecr.io/nobs_backend:v1
