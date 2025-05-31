@@ -4,12 +4,12 @@ I prefix names with `nobs` because my company is called Nobsmed.
 
 ## My stack
 
--   Poetry (later switching to uv)
+-   Poetry (later switching to uv because I want a workspace for my mix and match experiments - see below
 -   Docker multi-stage builds (3x smaller images)
--   backend using FastAPI
--   frontend using Next.js
--   OpenSearch for search DB
--   Azure registry and container app deployment
+-   backend using FastAPI - perfect fit for my async LLM and pandas, sentence transformers, sklearn data science and ML experiments
+-   frontend using Next.js --- seems to be the best....my weakness is frontend
+-   OpenSearch for search DB -- thinking of switching to sparse vector search
+-   Azure registry and container app deployment -- I got funding from Microsoft for this, so I am using Azure
 
 ## My stack down the road
 
@@ -107,16 +107,9 @@ d559dc6e6c29: Preparing
 
 az acr repository list --name nobsregistry
 [
-"sampleapp"
+"nobs_backend",
 ]
-
-# in case you nee this....
-
-az acr credential show -n nobsregistry
-az container delete --name sampleapp --resource-group nobsmed
 ```
-
-https://learn.microsoft.com/en-us/azure/container-registry/container-registry-quickstart-task-cli
 
 ```console
 source azure_env
@@ -134,44 +127,5 @@ az containerapp create \
   --registry-identity "$IDENTITY_ID" \
   --query properties.configuration.ingress.fqdn
 
-
-```
-
-RESOURCE_GROUP="nobsmed"
-LOCATION="westus"
-ENVIRONMENT="env-nobsmed-containerapps"
-API_NAME="nobsmed-api"
-FRONTEND_NAME="nobsmed-ui"
-GITHUB_USERNAME=borisdev
-ACR_NAME="acaalbums"$GITHUB_USERNAME
-IDENTITY="nobsmed-identity"
-#groupId=$(az group show \
-
-# --name $RESOURCE_GROUP \
-
-# --query id --output tsv)
-
-GROUP_ID="/subscriptions/796bd72d-619a-444c-8750-4b850b94d2e9/resourceGroups/nobsmed"
-registryId=$(az acr show \
- --name $ACR_NAME \
- --resource-group $RESOURCE_GROUP \
- --query id --output tsv)
-clientId="6ee74919-1f59-4807-a81a-8295e53cc8c6"
-az role assignment create \
- --assignee $clientId \
- --scope $registryId \
- --role AcrPush
-GITHUB_SHA=c72c93c9e1967fcfc7a19701934430e392ae6ba9
-
-RESOURCE_GROUP="nobsmed"
-LOCATION="westus"
-ENVIRONMENT="env-nobsmed-containerapps"
-API_NAME="nobsmed-api"
-FRONTEND_NAME="nobsmed-ui"
-GITHUB_USERNAME=borisdev
-ACR_NAME="acaalbums"$GITHUB_USERNAME
-IDENTITY="nobsmed-identity"
-
-```
-
+az container delete --name sampleapp --resource-group nobsmed
 ```
