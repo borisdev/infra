@@ -1,67 +1,173 @@
-# Poetry managed Python FastAPI application with Docker multi-stage builds
+# Cheatsheet to run my Nobsmed.com stack
 
-### This repo serves as a minimal reference on setting up docker multi-stage builds with poetry
+I prefix names with `nobs` because my company is called Nobsmed.
 
-### Requirements
+## My stack
 
--   [Docker >= 17.05](https://www.python.org/downloads/release/python-381/)
--   [Python >= 3.7](https://www.python.org/downloads/release/python-381/)
--   [Poetry](https://github.com/python-poetry/poetry)
+-   Poetry (later switching to uv)
+-   Docker multi-stage builds (3x smaller images)
+-   backend using FastAPI
+-   frontend using Next.js
+-   OpenSearch for search DB
+-   Azure registry and container app deployment
 
----
+## My stack down the road
 
-**NOTE** - Run all commands from the project root
-
-## Local development
-
----
-
-## Poetry
-
-Create the virtual environment and install dependencies with:
-
-        poetry install
-
-See the [poetry docs](https://python-poetry.org/docs/) for information on how to add/update dependencies.
-
-Run commands inside the virtual environment with:
-
-        poetry run <your_command>
-
-Spawn a shell inside the virtual environment with
-
-        poetry shell
-
-Start a development server locally
-
-        poetry run uvicorn app.main:app --reload --host localhost --port 8000
-
-API will be available at [localhost:8000/](http://localhost:8000/)
-
-Swagger docs at [localhost:8000/docs](http://localhost:8000/docs)
-
-To run testing/linting locally you would execute lint/test in the [scripts directory](/scripts).
+-   Azure Search DB ?
+-   Redis for caching
 
 ---
 
-## Docker
+## Requirements
 
-Build images with:
+### Mix and match experiments
 
-        docker build --tag poetry-project --file docker/Dockerfile .
+-   quickly compare two different frontend versions without changing the backend API
+-   quickly compare two different backend LLM responses without changing the frontend
 
-The Dockerfile uses multi-stage builds to run lint and test stages before building the production stage. If linting or testing fails the build will fail.
+### Transparency over automation
 
-You can stop the build at specific stages with the `--target` option:
+-   easy to debug, ie., transparent, no magic (stay away from github actions until its needed)
+-   local and cloud are the same
+-   as simple as possible, I am a solo developer (stick w/ Azure CLI, no Terraform, no Pulumi, no CDK)
 
-        docker build --name poetry-project --file docker/Dockerfile . --target <stage>
+## Steps to run my stack
 
-For example we wanted to stop at the **test** stage:
+Build the images and then [push the images to Azure Container Registry for launch in Azure Container Apps.](https://learn.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-acr#create-azure-container-registry)
 
-        docker build --tag poetry-project --file docker/Dockerfile --target test .
+Assumptions:
 
-We could then get a shell inside the container with:
+-   you have an Azure account
+-   you have the Azure CLI installed
+-   you have Docker installed
+-   you have Python 3.10+ installed
+-   you have Poetry installed
+-   you have Node.js 18+ installed
+-   you have the Azure CLI logged in to your account
+-   you have the Azure CLI configured to use the correct subscription (if you have multiple subscriptions)
+-   you have created a resource group in Azure (e.g., `nobsmed`)
 
-        docker run -it poetry-project:latest bash
+## Pre-requisites steps
 
-If you do not specify a target the resulting image will be the last image defined which in our case is the 'production' image.
+```console
+# create the registry
+
+az acr create --resource-group nobsmed --name nobsregistry --sku Basic
+
+# sanity check
+
+az acr show --name nobsregistry --query loginServer --output table
+Result
+--------------------------
+nobsmedregistry.azurecr.io
+```
+
+---
+
+## Ongoing launch steps
+
+```bash
+# Build backend and frontend docker images:
+
+docker build --tag nobs_backend --file docker/Dockerfile .
+docker build --tag nobs_frontend --file docker/Dockerfile .
+
+# Tag the images for Azure Container Registry
+
+docker tag nobs_backend nobsregistry.azurecr.io/nobs_backend:v1
+
+# Sanity check
+
+docker images
+REPOSITORY                             TAG       IMAGE ID       CREATED        SIZE
+nobsregistry.azurecr.io/nobs_backend      v1        585a4696bedd   44 hours ago   197MB
+nobs_backend                           latest    585a4696bedd   43 hours ago   197MB
+nobs_frontend                          latest    585a4696bedd   43 hours ago   197MB
+
+# Push image to Azure Container Registry
+
+docker push nobsregistry.azurecr.io/nobs_backend:v1
+
+**# Sanity check .....you see the output below**
+
+The push refers to repository [nobsregistry.azurecr.io/nobs_backend]
+5f70bf18a086: Preparing
+7d577052c02c: Preparing
+ac42807ce093: Preparing
+d54c60f73cbb: Preparing
+d559dc6e6c29: Preparing
+8f697a207321: Waiting
+
+
+# Sanity check that the image is in the registry
+
+az acr repository list --name nobsregistry
+[
+"sampleapp"
+]
+
+# in case you nee this....
+
+az acr credential show -n nobsregistry
+az container delete --name sampleapp --resource-group nobsmed
+```
+
+https://learn.microsoft.com/en-us/azure/container-registry/container-registry-quickstart-task-cli
+
+```console
+source azure_env
+source azure_deploy
+
+az containerapp create \
+  --name $API_NAME \
+  --resource-group $RESOURCE_GROUP \
+  --environment $ENVIRONMENT \
+  --image $ACR_NAME.azurecr.io/$API_NAME \
+  --target-port 8080 \
+  --ingress external \
+  --registry-server $ACR_NAME.azurecr.io \
+  --user-assigned "$IDENTITY_ID" \
+  --registry-identity "$IDENTITY_ID" \
+  --query properties.configuration.ingress.fqdn
+
+
+```
+
+RESOURCE_GROUP="nobsmed"
+LOCATION="westus"
+ENVIRONMENT="env-nobsmed-containerapps"
+API_NAME="nobsmed-api"
+FRONTEND_NAME="nobsmed-ui"
+GITHUB_USERNAME=borisdev
+ACR_NAME="acaalbums"$GITHUB_USERNAME
+IDENTITY="nobsmed-identity"
+#groupId=$(az group show \
+
+# --name $RESOURCE_GROUP \
+
+# --query id --output tsv)
+
+GROUP_ID="/subscriptions/796bd72d-619a-444c-8750-4b850b94d2e9/resourceGroups/nobsmed"
+registryId=$(az acr show \
+ --name $ACR_NAME \
+ --resource-group $RESOURCE_GROUP \
+ --query id --output tsv)
+clientId="6ee74919-1f59-4807-a81a-8295e53cc8c6"
+az role assignment create \
+ --assignee $clientId \
+ --scope $registryId \
+ --role AcrPush
+GITHUB_SHA=c72c93c9e1967fcfc7a19701934430e392ae6ba9
+
+RESOURCE_GROUP="nobsmed"
+LOCATION="westus"
+ENVIRONMENT="env-nobsmed-containerapps"
+API_NAME="nobsmed-api"
+FRONTEND_NAME="nobsmed-ui"
+GITHUB_USERNAME=borisdev
+ACR_NAME="acaalbums"$GITHUB_USERNAME
+IDENTITY="nobsmed-identity"
+
+```
+
+```
