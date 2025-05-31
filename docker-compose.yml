@@ -1,9 +1,4 @@
 services:
-  # for debugging purposes
-  # backend:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/Dockerfile.base
   backend:
     build:
       context: .
