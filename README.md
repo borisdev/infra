@@ -1,7 +1,5 @@
 # Cheatsheet to run my Nobsmed.com stack
 
-I prefix names with `nobs` because my company is called Nobsmed.
-
 ## My stack
 
 -   `uv` package management for Python will replace the current Poetry package management
@@ -65,6 +63,8 @@ Assumptions:
 -   you have created a resource group in Azure (e.g., `nobsmed`)
 
 ## Pre-requisites steps
+
+I prefix names with `nobs` because my company is called Nobsmed.
 
 ```console
 # create the registry
