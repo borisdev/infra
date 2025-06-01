@@ -3,7 +3,7 @@
 ## My stack
 
 -   `uv` package management for Python will replace the current Poetry package management
--   Docker multi-stage builds (3x smaller images) so no big deal pushing from laptop to cloud registry
+-   Docker multi-stage builds (3x smaller images)
 -   Backend: FastAPI
     -   async LLM calls
     -   sentence transformer to fine tune embedding models
