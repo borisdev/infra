@@ -5,9 +5,9 @@
 -   `uv` package management for Python will replace the current Poetry package management
 -   Docker multi-stage builds (3x smaller images) so no big deal pushing from laptop to cloud registry
 -   Backend: FastAPI
-    -- async LLM calls
-    -- sentence transformer to fine tune embedding models
-    -- sklearn to create simple ML models to predict doc line relevance and user question topic
+    -   async LLM calls
+    -   sentence transformer to fine tune embedding models
+    -   sklearn to create simple ML models to predict doc line relevance and user question topic
 -   Frontend: Next.js, React components, Tailwind CSS, TypeScript
 -   Search DB - sparse vector embedding search (coming soon)
 -   Azure registry and container app deployment -- I got funding from Microsoft
