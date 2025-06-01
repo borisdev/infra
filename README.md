@@ -55,15 +55,8 @@ Source: [Azure Container Registry for launch in Azure Container Apps.](https://l
 
 Assumptions:
 
--   you have an Azure account
--   you have the Azure CLI installed
--   you have Docker installed
--   you have Python 3.10+ installed
--   you have Poetry installed
--   you have Node.js 18+ installed
--   you have the Azure CLI logged in to your account
--   you have the Azure CLI configured to use the correct subscription (if you have multiple subscriptions)
--   you have created a resource group in Azure (e.g., `nobsmed`)
+-   Azure: Azure CLI installed and your logged into it
+-   you have created a resource group in Azure (e.g., for me its `nobsmed`)
 
 ## Pre-requisites steps
 
