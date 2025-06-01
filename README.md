@@ -26,13 +26,13 @@ This means each deployment has one component that varies due to the innovation, 
 
 **Are the new React FE Components better?**
 
--   deployment_v1A -> `frontend_v1A` `backend_v1`
--   deployment_v1B -> `frontend_v1B` `backend_v1`
+-   deployment_v1A &#x2B05; `frontend_v1A` `backend_v1`
+-   deployment_v1B &#x2B05; `frontend_v1B` `backend_v1`
 
 **Are the new LLM prompts better?**
 
--   deployment v2A - `frontend_v2` `backend_v2A`
--   deployment v2B - `frontend_v2` `backend_v2B`
+-   deployment v2A &#x2B05; `frontend_v2` `backend_v2A`
+-   deployment v2B &#x2B05; `frontend_v2` `backend_v2B`
 
 ### Transparency over automation
 
