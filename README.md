@@ -20,16 +20,33 @@ I prefix names with `nobs` because my company is called Nobsmed.
 
 ## Requirements
 
-### Mix and match experiments
+### `uv`: Mix-and-Match Deployments for A/B Experiments
 
--   quickly compare two different frontend versions without changing the backend API
--   quickly compare two different backend LLM responses without changing the frontend
+We need to quickly evaluate innovations by showing beta testers 2 cloud deployments side-by-side.
+
+We will need `uv` python package management to run multiple deployments of the same stack, each with a different component version in the same repo.
+
+This means each deployment has one component that varies due to the innovation, and all the other components are the same.
+
+#### Illustration with Hypothetical Questions
+
+**Are the new React FE Components better?**
+
+-   \*\* deployment version.1A - `frontend_v1A` `backend_v1`
+-   \*\* deployment version.1B - `frontend_v1B` `backend_v1`
+
+**Are the new LLM prompts better?**
+
+-   \*\* deployment version.1A - `frontend_v1` `backend_v1A`
+-   \*\* deployment version.1B - `frontend_v1` `backend_v1B`
 
 ### Transparency over automation
 
--   easy to debug, ie., transparent, no magic (stay away from github actions until its needed)
--   local and cloud are the same
--   as simple as possible, I am a solo developer (stick w/ Azure CLI, no Terraform, no Pulumi, no CDK)
+-   no github actions until CI/CD is needed, ie., more team members going faster
+
+### Simplicity
+
+-   stick w/ Azure CLI until the infrastructure is more complex and requires automation
 
 ## Steps to run my stack
 
