@@ -4,7 +4,7 @@
 
 -   `uv` package management for Python will replace the current Poetry package management
 -   Docker multi-stage builds (3x smaller images)
--   Backend: FastAPI
+-   Backend: FastAPI (shift to [LangGraph Platform](https://www.langchain.com/langgraph-platform))
     -   async LLM calls
     -   sentence transformer to fine tune embedding models
     -   sklearn to create simple ML models to predict doc line relevance and user question topic
