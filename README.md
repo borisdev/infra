@@ -4,17 +4,13 @@ I prefix names with `nobs` because my company is called Nobsmed.
 
 ## My stack
 
--   Poetry (later switching to uv because I want a workspace for my mix and match experiments - see below
--   Docker multi-stage builds (3x smaller images)
--   backend using FastAPI - perfect fit for my async LLM and pandas, sentence transformers, sklearn data science and ML experiments
--   frontend using Next.js --- seems to be the best....my weakness is frontend
--   OpenSearch for search DB -- thinking of switching to sparse vector search
--   Azure registry and container app deployment -- I got funding from Microsoft for this, so I am using Azure
-
-## My stack down the road
-
--   Azure Search DB ?
--   Redis for caching
+-   `uv` package management for Python will replace the current Poetry package management
+-   Docker multi-stage builds (3x smaller images) so no big deal pushing from laptop to cloud registry
+-   Backend: FastAPI - async LLM calls, sentence transformer, sklearn
+-   Frontend: Next.js, React components, Tailwind CSS, TypeScript
+-   Search DB - sparse vector embedding search (coming soon)
+-   Azure registry and container app deployment -- I got funding from Microsoft
+-   Redis cache (coming soon)
 
 ---
 
