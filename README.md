@@ -32,25 +32,29 @@ This means each deployment has one component that varies due to the innovation, 
 
 **Are the new React FE Components better?**
 
--   \*\* deployment version.1A - `frontend_v1A` `backend_v1`
--   \*\* deployment version.1B - `frontend_v1B` `backend_v1`
+-   deployment_v1A -> `frontend_v1A` `backend_v1`
+-   deployment_v1B -> `frontend_v1B` `backend_v1`
 
 **Are the new LLM prompts better?**
 
--   \*\* deployment version.1A - `frontend_v1` `backend_v1A`
--   \*\* deployment version.1B - `frontend_v1` `backend_v1B`
+-   deployment v2A - `frontend_v2` `backend_v2A`
+-   deployment v2B - `frontend_v2` `backend_v2B`
 
 ### Transparency over automation
 
--   no github actions until CI/CD is needed, ie., more team members going faster
+-   no github actions until CI/CD is needed due to more team members going faster
 
 ### Simplicity
 
--   stick w/ Azure CLI until the infrastructure is more complex and requires automation
+-   stick w/ Azure CLI until the infrastructure is more complex
 
 ## Steps to run my stack
 
-Build the images and then [push the images to Azure Container Registry for launch in Azure Container Apps.](https://learn.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-acr#create-azure-container-registry)
+1. Build the images locally
+2. Push the images to cloud registry
+3. Deploy cloud container based on new image in registry
+
+Source: [Azure Container Registry for launch in Azure Container Apps.](https://learn.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-acr#create-azure-container-registry)
 
 Assumptions:
 
