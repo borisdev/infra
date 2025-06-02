@@ -1,6 +1,6 @@
-# Cheatsheet to run my Nobsmed.com stack
+# Cheatsheet to run my new stack for Nobsmed.com
 
-## My stack
+## Stack
 
 -   `uv` package management for Python will replace the current Poetry package management
 -   Docker multi-stage builds (3x smaller images)
