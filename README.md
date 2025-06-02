@@ -2,7 +2,7 @@
 
 ## Stack
 
--   `uv` package management for Python will replace the current Poetry package management
+-   `uv` workspace - in one repo I can play around with different service versions to quickly fix or compare deployment branches
 -   Docker multi-stage builds (3x smaller images)
 -   Backend: FastAPI (shift to [LangGraph Platform](https://www.langchain.com/langgraph-platform))
     -   async LLM calls
@@ -15,35 +15,11 @@
 
 ---
 
-## Requirements
+## Principles for a 1 person team
 
-### `uv`: Mix-and-Match Deployments for A/B Experiments
-
-We need to quickly evaluate innovations by showing beta testers 2 cloud deployments side-by-side.
-
-We will need `uv` python package management to run multiple deployments of the same stack, each with a different component version in the same repo.
-
-This means each deployment has one component that varies due to the innovation, and all the other components are the same.
-
-#### Illustration with Hypothetical Questions
-
-**Are the new React FE Components better?**
-
--   deployment_v1A &#x2B05; `frontend_v1A` `backend_v1`
--   deployment_v1B &#x2B05; `frontend_v1B` `backend_v1`
-
-**Are the new LLM prompts better?**
-
--   deployment v2A &#x2B05; `frontend_v2` `backend_v2A`
--   deployment v2B &#x2B05; `frontend_v2` `backend_v2B`
-
-### Transparency over automation
-
--   no github actions until CI/CD is needed due to more team members going faster
-
-### Simplicity
-
--   stick w/ Azure CLI until the infrastructure is more complex
+-   Transparency over automation
+    -   no github actions until CI/CD is needed due to more team members going faster
+-   Simplicity - no Terraform - stick w/ Azure CLI until the infrastructure is more complex
 
 ## Steps to run my stack
 
