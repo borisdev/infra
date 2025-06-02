@@ -1,8 +1,12 @@
 # Cheatsheet to run my new stack for Nobsmed.com
 
+## Best template to start with
+
+https://github.com/fastapi/full-stack-fastapi-template
+
 ## Stack
 
--   `uv` workspace - in one repo I can play around with different service versions to quickly fix or compare deployment branches
+-   `uv` workspace - deployment is captured in one repo but you still play around with different service versions
 -   Docker multi-stage builds (3x smaller images)
 -   Backend: FastAPI (shift to [LangGraph Platform](https://www.langchain.com/langgraph-platform))
     -   async LLM calls
