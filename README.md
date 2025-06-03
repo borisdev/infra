@@ -1,8 +1,35 @@
 # Cheatsheet to run my new stack for Nobsmed.com
 
+## Stack
+
+-   `uv`
+-   Docker multi-stage builds
+-   Backend: FastAPI (shift to [LangGraph Platform](https://www.langchain.com/langgraph-platform))
+-   Frontend: Next.js, React components, Tailwind CSS, TypeScript
+-   Azure Search DB
+-   Azure Registry
+-   Azure Container app
+-   Azure Redis
+
 ## Best template to start with
 
 https://github.com/fastapi/full-stack-fastapi-template
+
+## Why `uv`?
+
+Patch deployments for quick A/B test experiments
+
+```yaml
+[project]
+name = "my-project"
+version = "0.1.0"
+dependencies = [
+    "my-internal-package"
+]
+
+[tool.uv.sources]
+my-internal-package = { git = "https://your-internal-repo.com/my-internal-package.git", branch = "development-branch" }
+```
 
 ## Stack
 
