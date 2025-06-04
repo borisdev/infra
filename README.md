@@ -1,5 +1,8 @@
 # Cheatsheet to run my new stack for Nobsmed.com
 
+az containerapp compose
+https://learn.microsoft.com/en-us/cli/azure/containerapp/compose?view=azure-cli-latest
+
 ## Stack
 
 -   `uv`
